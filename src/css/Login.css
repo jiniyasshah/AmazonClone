@@ -109,3 +109,9 @@
 .btn3:hover::before {
   height: 0%;
 }
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 20px;
+}

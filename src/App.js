@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import Checkout from "./components/Checkout";
 import { useState } from "react";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import { useUser } from "./components/UserLogin";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
@@ -75,6 +76,15 @@ function App() {
             element={
               <>
                 <Login page={checkout} />
+              </>
+            }
+          />
+
+          <Route
+            path="/register"
+            element={
+              <>
+                <Register page={checkout} />
               </>
             }
           />
