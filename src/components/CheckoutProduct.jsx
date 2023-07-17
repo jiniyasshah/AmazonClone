@@ -10,7 +10,7 @@ function CheckoutProduct({ basket, removeItem }) {
           try {
             const storedUID = localStorage.getItem("uid");
             const response = await fetch(
-              "http://localhost:3000/customerData/" + storedUID,
+              "https://amazonapi-cnbd.onrender.com/customerData/" + storedUID,
               {
                 method: "delete",
                 headers: {

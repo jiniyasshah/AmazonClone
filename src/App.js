@@ -50,7 +50,7 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/customerData/" + storedUID
+          "https://amazonapi-cnbd.onrender.com/customerData/" + storedUID
         );
         const jsonData = await response.json();
         setitem(jsonData);
