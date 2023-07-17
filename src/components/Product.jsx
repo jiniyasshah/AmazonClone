@@ -18,7 +18,7 @@ function Product(props) {
     };
     try {
       props.onAddToBasket(updatedData);
-      const response = await fetch("http://localhost:3000/customerData", {
+      const response = await fetch(" "https://amazonapi-cnbd.onrender.com/customerData", {
         method: "post",
         headers: {
           Origin: "http://localhost:3001/",
