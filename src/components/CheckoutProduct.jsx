@@ -7,24 +7,7 @@ function CheckoutProduct({ basket, removeItem }) {
     <div className=".checkoutProduct">
       {basket.map((bask) => {
         const removeBasket = async () => {
-          try {
-            const storedUID = localStorage.getItem("uid");
-            const response = await fetch(
-              "https://amazonapi-cnbd.onrender.com/customerData/" + storedUID,
-              {
-                method: "delete",
-                headers: {
-                  Origin: "http://localhost:3001/",
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(bask),
-              }
-            );
-            removeItem(bask.del);
-            console.log(response);
-          } catch (error) {
-            // Handle error
-          }
+          removeItem(bask);
         };
         return (
           <div className="checkoutProduct">

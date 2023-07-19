@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/Product.css";
 import Rating from "./Rating";
 import { ZoomableImage } from "./ZoomableComponents";
+import Addedtocart from "./Addedtocart";
 
 var i = 0;
 function Product(props) {
+  const storedItem = JSON.parse(localStorage.getItem("item")) || [];
+
   const storedUID = localStorage.getItem("uid");
   const addToBasket = async (event) => {
     const updatedData = {
@@ -16,20 +19,12 @@ function Product(props) {
       rating: props.rating,
       del: i++,
     };
-    try {
+
+    const doesNoteExist = storedItem.some((note) => note.id === updatedData.id);
+    if (doesNoteExist) {
+      props.onRemoveToBasket(updatedData);
+    } else {
       props.onAddToBasket(updatedData);
-      const response = await fetch("https://amazonapi-cnbd.onrender.com/customerData", {
-        method: "post",
-        headers: {
-          Origin: "http://localhost:3001/",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
-      console.log(response);
-      // Handle the response as needed
-    } catch (error) {
-      // Handle error
     }
 
     // Execute prop.addList after updating data
@@ -56,10 +51,9 @@ function Product(props) {
           imageUrl={props.image}
           alt="products"
         />
-
-        <button className="btn btn3" onClick={addToBasket}>
-          Add to Basket
-        </button>
+        <div onClick={addToBasket}>
+          <Addedtocart product={props} />
+        </div>
       </div>
     </div>
   );

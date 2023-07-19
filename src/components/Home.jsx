@@ -3,7 +3,7 @@ import "../css/Home.css";
 import Product from "./Product";
 import Items from "./Items";
 
-function Home({ onAddToBasket, redirect }) {
+function Home({ onAddToBasket, redirect, onRemoveToBasket }) {
   function onload() {
     redirect(false);
   }
@@ -34,6 +34,7 @@ function Home({ onAddToBasket, redirect }) {
                 rating={item.rating}
                 price={item.price}
                 onAddToBasket={onAddToBasket}
+                onRemoveToBasket={onRemoveToBasket}
               />
             ))}
           </div>
