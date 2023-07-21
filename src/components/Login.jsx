@@ -8,6 +8,7 @@ function Login({ page }) {
   const navigate = useNavigate();
   const preerror1 = "auth/wrong-password";
   const preerror2 = "auth/user-not-found";
+  const preerror3 = "auth/invalid-email";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, seterror] = useState("");
@@ -37,6 +38,8 @@ function Login({ page }) {
           seterror("Invalid login credentials!");
         } else if (preerror2 === errorCode) {
           seterror("Invalid login credentials!");
+        } else if (preerror3 === errorCode) {
+          seterror("Enter a valid email address!");
         } else {
           seterror(errorMessage);
         }
