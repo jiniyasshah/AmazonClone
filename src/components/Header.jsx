@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../css/Header.css";
 import SearchIcon from "@mui/icons-material/Search";
 import { ShoppingBasket } from "@mui/icons-material";
@@ -8,10 +8,68 @@ import { auth } from "./Firebase";
 import { signOut } from "firebase/auth";
 import { useUser } from "./UserLogin";
 import { Fade } from "@mui/material";
+import SearchSuggestions from "./SearchSuggestions";
 
 import { ZoomableImage, ZoomableOption } from "./ZoomableComponents";
 
 function Header({ number, emptyall }) {
+  const [search, setSearch] = useState({ query: "" });
+  const [searched, setsearched] = useState([]);
+  const [namevalue, setnamevalue] = useState("");
+  const [clicked, setclicked] = useState(false);
+
+  const handleClick = () => {
+    setclicked(true);
+  };
+  let menuRef = useRef();
+  useEffect(() => {
+    let handler = (e) => {
+      let eventComing = e.target;
+
+      if (
+        clicked &&
+        menuRef.current &&
+        !menuRef.current.contains(eventComing)
+      ) {
+        setclicked(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler); // Cleanup: remove the event listener when the component unmounts
+    };
+  }, [clicked]);
+
+  const fetchData = async () => {
+    const response = await fetch(
+      "https://amazonapi-cnbd.onrender.com/searchData/",
+      {
+        method: "post",
+        headers: {
+          Origin: "http://localhost:3001/",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(search),
+      }
+    );
+    const jsonData = await response.json();
+    setsearched(jsonData);
+  };
+
+  function onsearchChange(event) {
+    const { name, value } = event.target;
+    setnamevalue(event.target.value);
+    setSearch((prevData) => {
+      return {
+        ...prevData,
+        [name]: value,
+      };
+    });
+    fetchData();
+  }
+  console.log(search);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -39,11 +97,22 @@ function Header({ number, emptyall }) {
           imageUrl="https://pngimg.com/d/amazon_PNG11.png"
         />
       </Link>
-
-      <div className="header__search">
-        <input className="header__searchInput" type="text"></input>
+      <div className="header__search" ref={menuRef}>
+        <input
+          name="query"
+          value={search.query}
+          className="header__searchInput"
+          onChange={onsearchChange}
+          onClick={handleClick}
+          type="text"
+          autoComplete="off"
+        ></input>
         <SearchIcon className="header__searchIcon" />
+        {namevalue.length > 2 && searched.length > 0 && clicked ? (
+          <SearchSuggestions suggestions={searched} />
+        ) : null}
       </div>
+
       <div className="header__navbar">
         <Link to={!user && "/login"}>
           <div onClick={user && handleLogout}>

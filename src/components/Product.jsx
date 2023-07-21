@@ -3,13 +3,15 @@ import "../css/Product.css";
 import Rating from "./Rating";
 import { ZoomableImage } from "./ZoomableComponents";
 import Addedtocart from "./Addedtocart";
-
+import { useUser } from "./UserLogin";
 var i = 0;
 function Product(props) {
   const storedItem = JSON.parse(localStorage.getItem("item")) || [];
-
+  const user = useUser();
   const storedUID = localStorage.getItem("uid");
   const addToBasket = async (event) => {
+    const detect = Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000;
+
     const updatedData = {
       uid: storedUID,
       id: props.id,
@@ -17,7 +19,7 @@ function Product(props) {
       image: props.image,
       price: props.price,
       rating: props.rating,
-      del: i++,
+      del: user ? props.id : detect,
     };
 
     const doesNoteExist = storedItem.some((note) => note.id === updatedData.id);
