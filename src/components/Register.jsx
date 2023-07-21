@@ -8,6 +8,7 @@ import { auth } from "./Firebase";
 function Register({ page }) {
   const preerror1 = "auth/email-already-in-use";
   const preerror2 = "auth/weak-password";
+  const preerror3 = "auth/invalid-email";
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +36,8 @@ function Register({ page }) {
           seterror("User is already registered. Please try signing in!");
         } else if (preerror2 === errorCode) {
           seterror("Password should be at least 6 characters!");
+        } else if (preerror3 === errorCode) {
+          seterror("Enter a valid email address!");
         } else {
           seterror(errorMessage);
         }
