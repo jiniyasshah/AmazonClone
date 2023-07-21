@@ -59,6 +59,7 @@ function Header({ number, emptyall }) {
   };
 
   function onsearchChange(event) {
+    setsearched([]);
     const { name, value } = event.target;
     setnamevalue(event.target.value);
     setSearch((prevData) => {
