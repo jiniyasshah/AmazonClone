@@ -112,6 +112,7 @@ function App() {
         const jsonData = await response.json();
 
         setitem(jsonData);
+        setoutitem(jsonData);
       } catch (error) {
         // Handle error
       }
